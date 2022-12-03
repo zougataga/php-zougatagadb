@@ -1,4 +1,4 @@
-// llx404 on github
+// zougataga on github
 
 const Discord = require('discord.js');
 const db = require("quick.db");
