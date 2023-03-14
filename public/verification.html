@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html lang="fr-Fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Just a moment...</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://hcaptcha.com/1/api.js" async defer></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="cf-holder">
+            <div id="main">
+                <div class="loader-holder">
+                    <div class="loader"></div>
+                </div>
+                <h1>
+                    <span data-translate="checking_browser">Checking your browser before accessing</span>
+                    <span id="domain"></span>.
+                </h1>
+
+                <p data-translate="process_is_automatic">
+                    This process is automatic. Your browser will redirect to your
+                    requested content shortly.
+                </p>
+                <p data-translate="allow_5_secs">Please allow up to 5 seconds…</p>
+            </div>
+            <div id="error">
+                <h1>
+                    <span data-translate="error">Verification fail.</span>
+                </h1>
+                <form action="/captcha" method="post">
+                    <div class="h-captcha" data-sitekey="747448b4-b4d4-4cb0-8661-8d622c039609" required></div>
+                    <input type="hidden" id="id" name="id">
+                    <input type="hidden" id="path" name="path">
+                    <input type="hidden" id="ip" name="ip">
+                    <input type="hidden" id="agent" name="agent">
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-holder">
+        <div class="bg"></div>
+    </div>
+
+    <script src="/js/verification.js"></script>
+</body>
+
+</html>
