@@ -2,6 +2,7 @@ module.exports = async (app) => {
     const
         db = require("../database/index.js"),
         fs = require("fs"),
+        slowDown = require("express-slow-down"),
         hCaptcha = require('hcaptcha'),
         {
             createId,
@@ -80,6 +81,11 @@ module.exports = async (app) => {
         ];
 
     allPath.push(...pathProtection);
+    app.use(slowDown({
+        windowMs: 15 * 60 * 1000, 
+        delayAfter: 100,
+        delayMs: 500 
+    }));
     for (const path of allPath) {
         const event = async (req, res) => {
             logs(req, res);
