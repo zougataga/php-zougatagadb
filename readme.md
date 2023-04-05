@@ -1,4 +1,4 @@
-## php-simple-jsondb
+## Php ZougatagaDb (JSON)
 
 ## Example
 
