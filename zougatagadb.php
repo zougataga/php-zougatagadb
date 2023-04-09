@@ -110,6 +110,35 @@ class zougatagaDb
         }));
     }
 
+    public function add($id, $number)
+    {
+        if (!$id)
+            throw new TypeError("No id specified");
+        if (!is_string($id))
+            throw new TypeError("ID: '$id' IS NOT a string");
+        if (!$number)
+            throw new TypeError("Data @ ID: '$id' IS NOT specified");
+        $data = (float) $this->getData($id) ?? 0;
+        $rnumber = (float) $number;
+        if (!$rnumber || is_nan($rnumber))
+            throw new Error("[zougatagaDb] Data @ ID: '$id' IS NOT A number.\nFOUND: $number\nEXPECTED: number");
+        return $this->setData($id, (float) ($data + $rnumber));
+    }
+
+    public function subtract($id, $number)
+    {
+        if (!$id)
+            throw new TypeError("No id specified");
+        if (!is_string($id))
+            throw new TypeError("ID: '$id' IS NOT a string");
+        if (!$number)
+            throw new TypeError("Data @ ID: '$id' IS NOT specified");
+        $data = (float) $this->getData($id) ?? 0;
+        $rnumber = (float) $number;
+        if (!$rnumber || is_nan($rnumber))
+            throw new Error("[zougatagaDb] Data @ ID: '$id' IS NOT A number.\nFOUND: $number\nEXPECTED: number");
+        return $this->setData($id, (float) ($data - $rnumber));
+    }
 
     private function getAllData()
     {
