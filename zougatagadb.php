@@ -1,13 +1,39 @@
 <?php
+class cipherData {
+    private $key;
+    private $iv;
 
+    function __construct($obj = null) {
+        $this->key = $obj['key'] ?? $this->stringToByte("zougatagaongit", 32);
+        $this->iv = $obj['iv'] ?? $this->stringToByte("zougatagaongit", 16);
+    }
+
+    private function stringToByte($str, $size = 32) {
+        return substr(hash("sha256", $str, true), 0, $size);
+    }
+
+    public function encryptData($data) {
+        $encrypted = openssl_encrypt($data, "aes-256-cbc", $this->key, OPENSSL_RAW_DATA, $this->iv);
+        return bin2hex($encrypted);
+    }
+
+    public function decryptData($data) {
+        $decrypted = openssl_decrypt(hex2bin($data), "aes-256-cbc", $this->key, OPENSSL_RAW_DATA, $this->iv);
+        return $decrypted;
+    }
+}
 class zougatagaDb
 {
     private $path;
+    private $cipher;
+    private $cryptData;
     private $data;
 
     public function __construct($obj = null)
     {
         $this->path = isset($obj['path']) ? $obj['path'] : './zougataga.db';
+        $this->cryptData = isset($obj['cryptData']) ? $obj['cryptData'] : false;
+        $this->cipher = new cipherData();
         if (!file_exists($this->path)) {
             $this->setAllData([]);
         }
@@ -143,12 +169,18 @@ class zougatagaDb
     private function getAllData()
     {
         $jsonData = file_get_contents($this->path);
+        if ($this->cryptData) {
+            $jsonData = $this->cipher->decryptData($jsonData);
+        }
         return json_decode($jsonData, true);
     }
 
     private function setAllData($data)
     {
         $jsonData = json_encode($data);
+        if ($this->cryptData) {
+            $jsonData = $this->cipher->encryptData($jsonData);
+        }
         file_put_contents($this->path, $jsonData);
     }
 
